@@ -48,7 +48,8 @@
         <source src="assets/card-loop.mp4" type="video/mp4">
       </video>
       <div class="vcard__bg" aria-hidden="true"></div>
-      <button class="vcard__card" type="button" data-video="https://player.vimeo.com/video/76979871?autoplay=1" aria-label="Play our video business card">
+      <!-- Presentation video. If it's set to Unlisted on Vimeo, add its hash: ...video/1230305344?h=XXXXXXXX&autoplay=1... -->
+      <button class="vcard__card" type="button" data-video="https://player.vimeo.com/video/1230305344?autoplay=1&amp;muted=0&amp;title=0&amp;byline=0&amp;portrait=0" aria-label="Play our presentation video">
         <span class="vcard__top">
           <span class="label">No. 001</span>
           <span class="label">video business card</span>
@@ -225,7 +226,10 @@
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
-    <button class="lightbox__close" type="button" aria-label="Close video">close ✕</button>
+    <button class="lightbox__close" type="button" aria-label="Close video">
+      <span>close</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="square"/></svg>
+    </button>
     <div class="lightbox__frame" id="lightbox-frame"></div>
   </div>
 

@@ -657,33 +657,41 @@ em {
   z-index: 100;
   display: grid;
   place-items: center;
-  padding: 64px var(--gutter);
+  padding: 88px var(--gutter);
   background: rgba(11,11,11,.94);
+  cursor: pointer; /* the backdrop closes the modal */
   animation: fade .3s var(--ease);
 }
 .lightbox[hidden] { display: none; }
 .lightbox__frame {
-  width: min(1200px, 100%);
+  /* Also capped by viewport height so the 16:9 frame never overflows short screens */
+  width: min(1200px, 100%, (100vh - 176px) * 16 / 9);
   aspect-ratio: 16 / 9;
-  max-height: 100%;
   background: #000;
+  cursor: auto;
 }
 .lightbox__frame iframe { width: 100%; height: 100%; border: 0; }
 .lightbox__close {
   position: absolute;
   top: 20px;
   right: var(--gutter);
-  padding: 8px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  padding: 0 16px 0 20px;
   border: 0;
-  background: none;
-  color: var(--white);
+  background: var(--white);
+  color: var(--ink);
   font-family: var(--mono);
   font-size: 12px;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: .08em;
   cursor: pointer;
+  transition: background .2s var(--ease), color .2s var(--ease);
 }
-.lightbox__close:hover { color: var(--pink); }
+.lightbox__close:hover { background: var(--pink); color: var(--white); }
 @keyframes fade { from { opacity: 0; } }
 
 body.no-scroll { overflow: hidden; }
