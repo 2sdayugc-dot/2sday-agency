@@ -47,12 +47,14 @@ const lightbox = document.getElementById("lightbox");
 const lightboxFrame = document.getElementById("lightbox-frame");
 const lightboxClose = lightbox.querySelector(".lightbox__close");
 let lastFocus = null;
+let onLightboxClose = null;
 
 // Direct video files play in a native <video>; anything else (Vimeo) in an iframe
 const isVideoFile = (src) => /\.(mp4|mov|webm)(\?|$)/i.test(src);
 
-function openVideo(src, poster) {
+function openVideo(src, poster, onClose = null) {
   lastFocus = document.activeElement;
+  onLightboxClose = onClose;
   let player;
 
   if (isVideoFile(src)) {
@@ -91,6 +93,8 @@ function closeVideo() {
   lightboxFrame.replaceChildren(); // removing an iframe stops Vimeo playback
   document.body.classList.remove("no-scroll");
   if (lastFocus) lastFocus.focus();
+  if (onLightboxClose) onLightboxClose();
+  onLightboxClose = null;
 }
 
 lightboxClose.addEventListener("click", closeVideo);
@@ -110,67 +114,94 @@ if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   loop.pause();
 }
 
-// Intro line: fade/drift in once, when the line itself is actually on screen
-// (bottom margin makes it start a little above the fold, not at the very edge).
-// The observer disconnects after the first reveal so it never replays.
-const intro = document.querySelector(".vcard__intro");
-new IntersectionObserver((entries, obs) => {
-  if (entries[0].isIntersecting) {
-    intro.classList.add("is-in");
-    obs.disconnect();
-  }
-}, { threshold: 0.9, rootMargin: "0px 0px -12% 0px" }).observe(intro);
-
-// Tap-hint cursor path: ends on the play button's center, starts beside the intro
-// line below the card, so it drifts up to the button. Measured live because both move with viewport size and card tilt.
+// One calm sequence, each step waiting for the last:
+//   1. card scrolls into view -> hint cursor glides in and "clicks" (once)
+//   2. cursor finishes        -> card straightens to upright
+//   3. card is upright        -> muted preview fades in and loops inside the card
+//   4. preview is playing     -> "tap for sound" cue fades in
+// A real click on the card before then jumps straight to step 2. Once live,
+// clicking the card (preview or cue) opens the modal with sound.
 const vcard = document.getElementById("card");
-const hintCursor = document.querySelector(".vcard__cursor");
-const playBtn = document.querySelector(".vcard__play");
+const card = vcard.querySelector(".vcard__card");
+const hintCursor = vcard.querySelector(".vcard__cursor");
+const playBtn = card.querySelector(".vcard__play");
+const soundCue = card.querySelector(".vcard__sound");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const STRAIGHTEN_MS = reduceMotion ? 0 : 800; // matches .vcard__card.is-live transition
+const CUE_DELAY_MS = 1200;
+let cardScreen = null;
 
+// Cursor path: ends on the play button's center, starts just off the card's right
+// edge, level with the button (pulled in on narrow screens so it stays visible).
+// Measured live because both move with viewport size and card tilt.
 function placeHintCursor() {
   const sec = vcard.getBoundingClientRect();
   const play = playBtn.getBoundingClientRect();
-  // The line can wrap on phones, so track where its last line of text ends
-  const range = document.createRange();
-  range.selectNodeContents(intro);
-  const lines = range.getClientRects();
-  const text = lines[lines.length - 1];
-  // Ignore the reveal's translateY so the path matches the text's resting place
-  const textShift = new DOMMatrixReadOnly(getComputedStyle(intro).transform).m42;
+  const box = card.getBoundingClientRect();
+  const cursorW = parseFloat(hintCursor.getAttribute("width"));
 
   const endX = play.left + play.width / 2 - sec.left;
   const endY = play.top + play.height / 2 - sec.top;
-  // Start on the text's line: just past its end if there's room, else just
-  // before its start; below its end only if neither side has room
-  const cursorW = parseFloat(hintCursor.getAttribute("width"));
-  const first = lines[0];
-  const need = 16 + cursorW + 8;
-  let startX, startY;
-  if (sec.right - text.right > need) {
-    startX = text.right + 16;
-    startY = text.top + text.height * 0.2;
-  } else if (first.left - sec.left > need) {
-    startX = first.left - 16 - cursorW;
-    startY = first.top + first.height * 0.2;
-  } else {
-    startX = text.right - 24;
-    startY = text.bottom + 8;
-  }
-  startX -= sec.left;
-  startY -= textShift + sec.top;
+  const startX = Math.min(box.right + 16, sec.right - cursorW - 8) - sec.left;
 
   hintCursor.style.setProperty("--end-x", `${endX}px`);
   hintCursor.style.setProperty("--end-y", `${endY}px`);
   hintCursor.style.setProperty("--dx", `${startX - endX}px`);
-  hintCursor.style.setProperty("--dy", `${startY - endY}px`);
+  hintCursor.style.setProperty("--dy", "0px");
+}
+new ResizeObserver(placeHintCursor).observe(vcard);
+
+// Step 1 (skipped for reduced motion: the card just waits for a real click)
+if (!reduceMotion) {
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    obs.disconnect();
+    if (card.classList.contains("is-live")) return;
+    placeHintCursor();
+    vcard.classList.add("is-hinting");
+  }, { threshold: 0.6 }).observe(card);
+}
+hintCursor.addEventListener("animationend", goLive);
+
+// Step 2
+function goLive() {
+  if (card.classList.contains("is-live")) return;
+  vcard.classList.remove("is-hinting");
+  card.classList.add("is-live");
+  card.setAttribute("aria-label", "Watch our presentation video with sound");
+  setTimeout(startCardScreen, STRAIGHTEN_MS);
 }
 
-new ResizeObserver(placeHintCursor).observe(vcard);
-document.fonts.ready.then(placeHintCursor);
+// Steps 3 + 4
+function startCardScreen() {
+  const video = document.createElement("video");
+  video.className = "vcard__screen";
+  video.src = card.dataset.preview;
+  video.poster = card.dataset.previewPoster;
+  video.muted = true;
+  video.loop = true;
+  video.playsInline = true;
+  video.setAttribute("aria-hidden", "true");
+  card.insertBefore(video, soundCue);
+  cardScreen = video;
 
-document.querySelector(".vcard__card").addEventListener("click", (e) => {
-  const { video, poster } = e.currentTarget.dataset;
-  openVideo(video, poster);
+  const reveal = () => {
+    video.classList.add("is-shown");
+    setTimeout(() => card.classList.add("has-cue"), CUE_DELAY_MS);
+  };
+  video.addEventListener("playing", reveal, { once: true });
+  // If autoplay is blocked (e.g. iOS Low Power Mode), show the poster frame and cue anyway
+  video.play().catch(reveal);
+}
+
+card.addEventListener("click", () => {
+  if (!card.classList.contains("is-live")) {
+    goLive();
+    return;
+  }
+  const { video, poster } = card.dataset;
+  if (cardScreen) cardScreen.pause();
+  openVideo(video, poster, () => cardScreen && cardScreen.play().catch(() => {}));
 });
 
 /* ---------- Portfolio tabs + grid ---------- */
