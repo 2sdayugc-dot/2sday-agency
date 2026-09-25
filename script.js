@@ -110,6 +110,45 @@ if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   loop.pause();
 }
 
+// Intro line: fade/drift in the first time the section scrolls into view
+const intro = document.querySelector(".vcard__intro");
+intro.classList.add("reveal");
+new IntersectionObserver((entries, obs) => {
+  if (entries[0].isIntersecting) {
+    intro.classList.add("is-in");
+    obs.disconnect();
+  }
+}, { threshold: 0.35 }).observe(document.getElementById("card"));
+
+// Tap-hint cursor path: ends on the play button's center, starts just after the
+// intro line. Measured live because both move with viewport size and card tilt.
+const vcard = document.getElementById("card");
+const hintCursor = document.querySelector(".vcard__cursor");
+const playBtn = document.querySelector(".vcard__play");
+
+function placeHintCursor() {
+  const sec = vcard.getBoundingClientRect();
+  const play = playBtn.getBoundingClientRect();
+  const text = intro.getBoundingClientRect();
+  // Ignore the reveal's translateY so the path matches the text's resting place
+  const textShift = new DOMMatrixReadOnly(getComputedStyle(intro).transform).m42;
+
+  const endX = play.left + play.width / 2 - sec.left;
+  const endY = play.top + play.height / 2 - sec.top;
+  // Start just past the text on wide screens; below its end when it fills the width
+  const roomRight = sec.right - text.right > 60;
+  const startX = (roomRight ? text.right + 16 : text.right - 24) - sec.left;
+  const startY = (roomRight ? text.top + text.height * 0.2 : text.bottom + 8) - textShift - sec.top;
+
+  hintCursor.style.setProperty("--end-x", `${endX}px`);
+  hintCursor.style.setProperty("--end-y", `${endY}px`);
+  hintCursor.style.setProperty("--dx", `${startX - endX}px`);
+  hintCursor.style.setProperty("--dy", `${startY - endY}px`);
+}
+
+new ResizeObserver(placeHintCursor).observe(vcard);
+document.fonts.ready.then(placeHintCursor);
+
 document.querySelector(".vcard__card").addEventListener("click", (e) => {
   const { video, poster } = e.currentTarget.dataset;
   openVideo(video, poster);
