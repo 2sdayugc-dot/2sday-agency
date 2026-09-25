@@ -48,22 +48,47 @@ const lightboxFrame = document.getElementById("lightbox-frame");
 const lightboxClose = lightbox.querySelector(".lightbox__close");
 let lastFocus = null;
 
-function openVideo(src) {
+// Direct video files play in a native <video>; anything else (Vimeo) in an iframe
+const isVideoFile = (src) => /\.(mp4|mov|webm)(\?|$)/i.test(src);
+
+function openVideo(src, poster) {
   lastFocus = document.activeElement;
-  const iframe = document.createElement("iframe");
-  iframe.src = src;
-  iframe.allow = "autoplay; fullscreen; picture-in-picture";
-  iframe.allowFullscreen = true;
-  iframe.title = "Video player";
-  lightboxFrame.replaceChildren(iframe);
+  let player;
+
+  if (isVideoFile(src)) {
+    player = document.createElement("video");
+    player.src = src;
+    if (poster) player.poster = poster;
+    player.controls = true;
+    player.playsInline = true;
+    player.preload = "auto";
+  } else {
+    player = document.createElement("iframe");
+    player.src = src;
+    player.allow = "autoplay; fullscreen; picture-in-picture";
+    player.allowFullscreen = true;
+    player.title = "Video player";
+  }
+
+  lightboxFrame.replaceChildren(player);
   lightbox.hidden = false;
   document.body.classList.add("no-scroll");
   lightboxClose.focus();
+
+  // Called within the click, so browsers allow playback with sound.
+  // If one still refuses, the visible controls let the viewer press play.
+  if (player.tagName === "VIDEO") player.play().catch(() => {});
 }
 
 function closeVideo() {
+  const video = lightboxFrame.querySelector("video");
+  if (video) {
+    video.pause();
+    video.removeAttribute("src");
+    video.load(); // abort the download
+  }
   lightbox.hidden = true;
-  lightboxFrame.replaceChildren(); // removing the iframe stops playback
+  lightboxFrame.replaceChildren(); // removing an iframe stops Vimeo playback
   document.body.classList.remove("no-scroll");
   if (lastFocus) lastFocus.focus();
 }
@@ -86,7 +111,8 @@ if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
 }
 
 document.querySelector(".vcard__card").addEventListener("click", (e) => {
-  openVideo(e.currentTarget.dataset.video);
+  const { video, poster } = e.currentTarget.dataset;
+  openVideo(video, poster);
 });
 
 /* ---------- Portfolio tabs + grid ---------- */

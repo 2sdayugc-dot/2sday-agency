@@ -48,8 +48,12 @@
         <source src="assets/card-loop.mp4" type="video/mp4">
       </video>
       <div class="vcard__bg" aria-hidden="true"></div>
-      <!-- Presentation video. If it's set to Unlisted on Vimeo, add its hash: ...video/1230305344?h=XXXXXXXX&autoplay=1... -->
-      <button class="vcard__card" type="button" data-video="https://player.vimeo.com/video/1230305344?autoplay=1&amp;muted=0&amp;title=0&amp;byline=0&amp;portrait=0" aria-label="Play our presentation video">
+      <!-- Presentation video, served by Cloudinary as an .mp4 capped at 1920px wide (source is a 93MB .mov).
+           The poster is the same URL with .jpg, which Cloudinary renders from the first frame. -->
+      <button class="vcard__card" type="button"
+        data-video="https://res.cloudinary.com/fkq3p6m2/video/upload/q_auto,w_1920,c_limit/v1790358222/meet%202sday.mp4"
+        data-poster="https://res.cloudinary.com/fkq3p6m2/video/upload/q_auto,w_1920,c_limit/v1790358222/meet%202sday.jpg"
+        aria-label="Play our presentation video">
         <span class="vcard__top">
           <span class="label">No. 001</span>
           <span class="label">video business card</span>
