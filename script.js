@@ -130,16 +130,34 @@ const playBtn = document.querySelector(".vcard__play");
 function placeHintCursor() {
   const sec = vcard.getBoundingClientRect();
   const play = playBtn.getBoundingClientRect();
-  const text = intro.getBoundingClientRect();
+  // The line can wrap on phones, so track where its last line of text ends
+  const range = document.createRange();
+  range.selectNodeContents(intro);
+  const lines = range.getClientRects();
+  const text = lines[lines.length - 1];
   // Ignore the reveal's translateY so the path matches the text's resting place
   const textShift = new DOMMatrixReadOnly(getComputedStyle(intro).transform).m42;
 
   const endX = play.left + play.width / 2 - sec.left;
   const endY = play.top + play.height / 2 - sec.top;
-  // Start just past the text on wide screens; below its end when it fills the width
-  const roomRight = sec.right - text.right > 60;
-  const startX = (roomRight ? text.right + 16 : text.right - 24) - sec.left;
-  const startY = (roomRight ? text.top + text.height * 0.2 : text.bottom + 8) - textShift - sec.top;
+  // Start on the text's line: just past its end if there's room, else just
+  // before its start; below its end only if neither side has room
+  const cursorW = parseFloat(hintCursor.getAttribute("width"));
+  const first = lines[0];
+  const need = 16 + cursorW + 8;
+  let startX, startY;
+  if (sec.right - text.right > need) {
+    startX = text.right + 16;
+    startY = text.top + text.height * 0.2;
+  } else if (first.left - sec.left > need) {
+    startX = first.left - 16 - cursorW;
+    startY = first.top + first.height * 0.2;
+  } else {
+    startX = text.right - 24;
+    startY = text.bottom + 8;
+  }
+  startX -= sec.left;
+  startY -= textShift + sec.top;
 
   hintCursor.style.setProperty("--end-x", `${endX}px`);
   hintCursor.style.setProperty("--end-y", `${endY}px`);
