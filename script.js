@@ -78,6 +78,13 @@ document.addEventListener("keydown", (e) => {
 
 /* ---------- Video business card ---------- */
 
+// Background loop is decorative; hold it on the poster frame for reduced-motion users
+if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const loop = document.querySelector(".vcard__video");
+  loop.removeAttribute("autoplay");
+  loop.pause();
+}
+
 document.querySelector(".vcard__card").addEventListener("click", (e) => {
   openVideo(e.currentTarget.dataset.video);
 });
@@ -202,6 +209,25 @@ form.addEventListener("submit", (e) => {
 form.addEventListener("input", (e) => {
   e.target.closest(".field")?.classList.remove("is-invalid");
 });
+
+/* ---------- Nav color ----------
+   Nav text is ink by default and flips to white over sections marked data-dark. */
+
+const nav = document.querySelector(".nav");
+const darkSections = document.querySelectorAll("[data-dark]");
+
+function updateNav() {
+  const y = nav.offsetHeight / 2;
+  const onDark = [...darkSections].some((el) => {
+    const r = el.getBoundingClientRect();
+    return r.top <= y && r.bottom >= y;
+  });
+  nav.classList.toggle("is-on-dark", onDark);
+}
+
+window.addEventListener("scroll", updateNav, { passive: true });
+window.addEventListener("resize", updateNav);
+updateNav();
 
 /* ---------- Footer year ---------- */
 
