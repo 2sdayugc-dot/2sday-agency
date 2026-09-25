@@ -9,6 +9,8 @@
   --mute: #6f6c66;
   --line: #0b0b0b;
   --pink: #ff2d87;
+  --pink-deep: #c80f5c; /* accent on light-pink surfaces, where --pink is too faint */
+  --pink-wash: #ffe4ef;
 
   --serif: "Instrument Serif", "Times New Roman", serif;
   --sans: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
@@ -444,6 +446,14 @@ em {
   font-size: 20px;
   color: var(--mute);
 }
+.dish__blurb {
+  max-width: 30ch;
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--mute);
+}
 .dish__list {
   display: grid;
   grid-row: span 9;
@@ -495,7 +505,18 @@ em {
 }
 .dish__price .label { display: block; margin-bottom: 6px; color: var(--mute); }
 
+.dish--pink { background: var(--pink-wash); }
+.dish--pink .dish__num { color: var(--pink-deep); }
+.dish--pink .dish__tag,
+.dish--pink .dish__blurb,
+.dish--pink .dish__price .label { color: #6b4a57; }
+.dish--pink .dish__list li { border-top-color: rgba(120, 20, 60, .14); }
+.dish--pink .dish__list li::before { background: var(--pink-deep); }
+.dish--pink .dish__list li.is-out { color: rgba(60, 20, 36, .42); }
+.dish--pink .dish__list li.is-out::before { background: rgba(60, 20, 36, .32); }
+
 .dish--feature { background: var(--ink); color: var(--white); }
+.dish--feature .dish__blurb,
 .dish--feature .dish__tag,
 .dish--feature .dish__price .label { color: rgba(255,255,255,.55); }
 .dish--feature .dish__list li { border-top-color: rgba(255,255,255,.18); }
