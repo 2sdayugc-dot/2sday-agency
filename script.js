@@ -127,7 +127,7 @@ const hintCursor = vcard.querySelector(".vcard__cursor");
 const playBtn = card.querySelector(".vcard__play");
 const soundCue = card.querySelector(".vcard__sound");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const STRAIGHTEN_MS = reduceMotion ? 0 : 800; // matches .vcard__card.is-live transition
+const STRAIGHTEN_MS = reduceMotion ? 0 : 600; // matches .vcard__card.is-live transition
 const CUE_DELAY_MS = 1200;
 let cardScreen = null;
 

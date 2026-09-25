@@ -183,7 +183,7 @@ em {
   overflow: hidden;
   isolation: isolate;
   background: var(--paper);
-  --hint-dur: 4.2s; /* one-shot timeline shared by the hint cursor, tap ripple and button press */
+  --hint-dur: 2.2s; /* one-shot timeline shared by the hint cursor, tap ripple and button press */
 }
 /* Layers, bottom to top: footage, paper wash, pink wash, card */
 .vcard__video {
@@ -354,7 +354,7 @@ em {
    preview fades in over the card face, then the sound cue appears */
 .vcard__card.is-live {
   transform: none;
-  transition: transform .8s var(--ease), box-shadow .5s var(--ease);
+  transition: transform .6s var(--ease), box-shadow .5s var(--ease);
 }
 .vcard__card.is-live .vcard__play::before,
 .vcard__card.is-live .vcard__play::after { animation: none; opacity: 0; }
