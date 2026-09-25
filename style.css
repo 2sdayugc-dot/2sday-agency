@@ -447,8 +447,9 @@ em {
   color: var(--mute);
 }
 .dish__blurb {
+  grid-column: 1 / -1;
   max-width: 30ch;
-  margin: 16px 0 0;
+  margin: 0;
   font-size: 14px;
   line-height: 1.45;
   font-style: italic;
@@ -490,12 +491,14 @@ em {
   background: rgba(11,11,11,.3);
   --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 3.5l9 9M12.5 3.5l-9 9' fill='none' stroke='black' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
 }
+/* Tagline on top, price + button below; space-between keeps prices level
+   across cards even if taglines wrap to different line counts */
 .dish__foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  align-content: space-between;
+  gap: 24px 16px;
 }
 .dish__price {
   margin: 0;
