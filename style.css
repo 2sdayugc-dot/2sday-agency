@@ -221,7 +221,7 @@ em {
 }
 @keyframes spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
 
-/* "This is us — hit play": sits above the card on the footage */
+/* "This is us — hit play": sits below the card on the footage */
 .vcard__intro {
   position: relative;
   z-index: 3;
@@ -232,20 +232,19 @@ em {
   letter-spacing: -0.045em;
   white-space: nowrap;
   color: var(--ink);
-  /* Soft paper halo keeps it legible when darker footage passes behind */
-  text-shadow: 0 0 18px rgba(244,242,238,.75), 0 0 4px rgba(244,242,238,.5);
 }
 .vcard__intro em {
   color: var(--pink-deep); /* --pink is ~2.5:1 on the pink-washed footage */
   letter-spacing: -0.02em;
 }
-/* Reveal: JS adds .reveal (so no-JS visitors still see the text), then .is-in on scroll */
-.vcard__intro.reveal {
+/* Reveal: hidden from first paint when JS is on (html.js is set in <head>, so
+   no-JS visitors still see it); script.js adds .is-in once it scrolls into view */
+.js .vcard__intro {
   opacity: 0;
   transform: translateY(18px);
   transition: opacity .9s var(--ease), transform .9s var(--ease);
 }
-.vcard__intro.reveal.is-in { opacity: 1; transform: none; }
+.js .vcard__intro.is-in { opacity: 1; transform: none; }
 
 .vcard__card {
   position: relative;

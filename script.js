@@ -110,18 +110,19 @@ if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   loop.pause();
 }
 
-// Intro line: fade/drift in the first time the section scrolls into view
+// Intro line: fade/drift in once, when the line itself is actually on screen
+// (bottom margin makes it start a little above the fold, not at the very edge).
+// The observer disconnects after the first reveal so it never replays.
 const intro = document.querySelector(".vcard__intro");
-intro.classList.add("reveal");
 new IntersectionObserver((entries, obs) => {
   if (entries[0].isIntersecting) {
     intro.classList.add("is-in");
     obs.disconnect();
   }
-}, { threshold: 0.35 }).observe(document.getElementById("card"));
+}, { threshold: 0.9, rootMargin: "0px 0px -12% 0px" }).observe(intro);
 
-// Tap-hint cursor path: ends on the play button's center, starts just after the
-// intro line. Measured live because both move with viewport size and card tilt.
+// Tap-hint cursor path: ends on the play button's center, starts beside the intro
+// line below the card, so it drifts up to the button. Measured live because both move with viewport size and card tilt.
 const vcard = document.getElementById("card");
 const hintCursor = document.querySelector(".vcard__cursor");
 const playBtn = document.querySelector(".vcard__play");
