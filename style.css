@@ -297,8 +297,8 @@ em {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2.4vw, 32px) clamp(12px, 1.6vw, 24px);
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(32px, 4vw, 56px) clamp(12px, 1.4vw, 20px);
 }
 .tile {
   display: block;
@@ -312,9 +312,10 @@ em {
 }
 .tile__thumb {
   position: relative;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   background: var(--ink);
+  container-type: inline-size;
 }
 .tile__thumb img {
   width: 100%;
@@ -330,13 +331,14 @@ em {
   place-items: center;
   color: rgba(255,255,255,.18);
   font-weight: 900;
-  font-size: clamp(64px, 10vw, 140px);
+  font-size: 64px;
+  font-size: 42cqi;
   letter-spacing: -0.06em;
 }
 .tile__play {
   position: absolute;
-  left: 14px;
-  bottom: 14px;
+  left: 10px;
+  bottom: 10px;
   padding: 6px 10px;
   background: var(--pink);
   color: var(--white);
@@ -349,16 +351,17 @@ em {
 .tile:focus-visible .tile__play { opacity: 1; transform: none; }
 .tile__meta {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 12px;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 14px;
 }
 .tile__title {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 1.25;
   letter-spacing: -0.01em;
 }
-.tile__meta .label { color: var(--mute); padding-top: 3px; }
+.tile__meta .label { order: -1; color: var(--mute); }
 
 @keyframes rise {
   from { opacity: 0; transform: translateY(18px); }
@@ -664,8 +667,12 @@ body.no-scroll { overflow: hidden; }
 
 /* ---------- Responsive ---------- */
 
+/* Portfolio columns stay divisors of 6 so each category fills complete rows */
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width: 960px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
   .menu { grid-template-columns: 1fr; }
   .dish + .dish { border-left: 0; }
   .logos { grid-template-columns: repeat(3, 1fr); }
@@ -676,7 +683,7 @@ body.no-scroll { overflow: hidden; }
 
 @media (max-width: 560px) {
   .nav__links { gap: 14px; }
-  .grid { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
   .logos { grid-template-columns: repeat(2, 1fr); }
   .logos li:nth-child(odd) { border-left: 0; }
   .logos li:nth-child(4) { border-left: 1px solid rgba(11,11,11,.15); }
