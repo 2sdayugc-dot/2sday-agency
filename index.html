@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2sday — we make cool ads</title>
+  <meta name="description" content="2sday is a video production studio. We got the sauce. We make cool ads.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav">
+    <a href="#top" class="nav__logo">2sday<span class="accent">.</span></a>
+    <nav class="nav__links">
+      <a href="#work">work</a>
+      <a href="#offer">offer</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- 1. HERO -->
+    <section class="hero" id="hero">
+      <!-- Swap the background by dropping your photo at assets/hero.jpg (see .hero__bg in style.css) -->
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <p class="label">Video production studio — Est. 2sday</p>
+        <h1 class="hero__title">
+          we got the <em>sauce.</em><br>
+          we make cool ads.
+        </h1>
+        <div class="hero__actions">
+          <a href="#work" class="btn btn--solid">the sauce</a>
+          <a href="#contact" class="btn btn--ghost">txt us</a>
+        </div>
+      </div>
+      <p class="hero__scroll label">scroll ↓</p>
+    </section>
+
+    <!-- 2. VIDEO CARD -->
+    <section class="vcard" id="card">
+      <!-- Swap the looping background by dropping a gif at assets/loop.gif (see .vcard__bg in style.css) -->
+      <div class="vcard__bg" aria-hidden="true"></div>
+      <button class="vcard__card" type="button" data-video="https://player.vimeo.com/video/76979871?autoplay=1" aria-label="Play our video business card">
+        <span class="vcard__top">
+          <span class="label">No. 001</span>
+          <span class="label">video business card</span>
+        </span>
+        <span class="vcard__name">2sday<span class="accent">.</span></span>
+        <span class="vcard__bottom">
+          <span class="vcard__play" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>
+          </span>
+          <span class="label">press play</span>
+        </span>
+      </button>
+    </section>
+
+    <!-- 3. PORTFOLIO -->
+    <section class="section work" id="work">
+      <div class="section__head">
+        <p class="label"><span class="accent">01</span> — portfolio</p>
+        <h2 class="section__title">the <em>sauce.</em></h2>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Portfolio categories">
+        <button class="tab is-active" role="tab" aria-selected="true" data-filter="tech">tech</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="lifestyle">lifestyle</button>
+        <button class="tab" role="tab" aria-selected="false" data-filter="street">street interviews</button>
+      </div>
+
+      <!-- Grid is rendered from the PORTFOLIO object in script.js -->
+      <div class="grid" id="grid" role="tabpanel" aria-live="polite"></div>
+    </section>
+
+    <!-- 4. OFFER -->
+    <section class="section offer" id="offer">
+      <div class="section__head">
+        <p class="label"><span class="accent">02</span> — the menu</p>
+        <h2 class="section__title">pick your <em>heat.</em></h2>
+      </div>
+
+      <div class="menu">
+        <article class="dish">
+          <header class="dish__head">
+            <span class="dish__num">I.</span>
+            <h3 class="dish__name">mild</h3>
+            <p class="dish__tag">a taste to get started</p>
+          </header>
+          <ol class="dish__list">
+            <li>Deliverable placeholder one</li>
+            <li>Deliverable placeholder two</li>
+            <li>Deliverable placeholder three</li>
+            <li>Deliverable placeholder four</li>
+            <li>Deliverable placeholder five</li>
+          </ol>
+          <footer class="dish__foot">
+            <p class="dish__price"><span class="label">from</span> $0,000</p>
+            <a href="#contact" class="btn btn--ghost btn--sm">order mild</a>
+          </footer>
+        </article>
+
+        <article class="dish dish--feature">
+          <header class="dish__head">
+            <span class="dish__num">II.</span>
+            <h3 class="dish__name">saucy</h3>
+            <p class="dish__tag">house favorite</p>
+          </header>
+          <ol class="dish__list">
+            <li>Deliverable placeholder one</li>
+            <li>Deliverable placeholder two</li>
+            <li>Deliverable placeholder three</li>
+            <li>Deliverable placeholder four</li>
+            <li>Deliverable placeholder five</li>
+          </ol>
+          <footer class="dish__foot">
+            <p class="dish__price"><span class="label">from</span> $0,000</p>
+            <a href="#contact" class="btn btn--solid btn--sm">order saucy</a>
+          </footer>
+        </article>
+
+        <article class="dish">
+          <header class="dish__head">
+            <span class="dish__num">III.</span>
+            <h3 class="dish__name">extra spicy</h3>
+            <p class="dish__tag">the full campaign</p>
+          </header>
+          <ol class="dish__list">
+            <li>Deliverable placeholder one</li>
+            <li>Deliverable placeholder two</li>
+            <li>Deliverable placeholder three</li>
+            <li>Deliverable placeholder four</li>
+            <li>Deliverable placeholder five</li>
+          </ol>
+          <footer class="dish__foot">
+            <p class="dish__price"><span class="label">from</span> $0,000</p>
+            <a href="#contact" class="btn btn--ghost btn--sm">order extra spicy</a>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5. SOCIAL PROOF -->
+    <section class="section proof" id="proof">
+      <div class="section__head">
+        <p class="label"><span class="accent">03</span> — who's eating</p>
+      </div>
+
+      <ul class="logos" aria-label="Brands we've worked with">
+        <li>BRAND/01</li>
+        <li>BRAND/02</li>
+        <li>BRAND/03</li>
+        <li>BRAND/04</li>
+        <li>BRAND/05</li>
+        <li>BRAND/06</li>
+      </ul>
+
+      <div class="quotes" id="quotes" aria-roledescription="carousel" aria-label="Client reviews">
+        <figure class="quote is-active">
+          <blockquote>“Placeholder review. They took our brief and made something we'd actually stop scrolling for.”</blockquote>
+          <figcaption><span>Client Name</span> — Role, Company</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>“Placeholder review. Fast, weird in the best way, and the numbers backed it up.”</blockquote>
+          <figcaption><span>Client Name</span> — Role, Company</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>“Placeholder review. The street interview series did more for us than a year of paid social.”</blockquote>
+          <figcaption><span>Client Name</span> — Role, Company</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>“Placeholder review. Easiest shoot we've ever done. Hardest part was picking the final cut.”</blockquote>
+          <figcaption><span>Client Name</span> — Role, Company</figcaption>
+        </figure>
+        <div class="quotes__dots" role="tablist" aria-label="Choose review"></div>
+      </div>
+    </section>
+
+    <!-- 6. CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="contact__intro">
+        <p class="label"><span class="accent">04</span> — contact</p>
+        <h2 class="section__title">txt <em>us.</em></h2>
+        <p class="contact__lede">Got a product, a brand, a half-baked idea? Tell us what you're cooking.</p>
+        <ul class="contact__links">
+          <li><span class="label">email</span><a href="mailto:hello@example.com">hello@example.com</a></li>
+          <li><span class="label">instagram</span><a href="https://instagram.com/" target="_blank" rel="noopener">@yourhandle</a></li>
+        </ul>
+      </div>
+
+      <form class="form" id="contact-form" novalidate>
+        <label class="field">
+          <span class="label">name</span>
+          <input type="text" name="name" autocomplete="name" required>
+        </label>
+        <label class="field">
+          <span class="label">email</span>
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label class="field">
+          <span class="label">message</span>
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <div class="form__foot">
+          <button type="submit" class="btn btn--solid">send it</button>
+          <p class="form__status" id="form-status" role="status"></p>
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="year"></span> 2sday</span>
+    <span class="footer__big">cool ads<span class="accent">.</span></span>
+    <a href="#top">back to top ↑</a>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+    <button class="lightbox__close" type="button" aria-label="Close video">close ✕</button>
+    <div class="lightbox__frame" id="lightbox-frame"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
