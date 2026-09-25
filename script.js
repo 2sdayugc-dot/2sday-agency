@@ -237,7 +237,8 @@ form.addEventListener("input", (e) => {
 });
 
 /* ---------- Nav color ----------
-   Nav text is ink by default and flips to white over sections marked data-dark. */
+   Nav text is ink by default and flips to white over sections marked data-dark
+   that span (nearly) the full width, e.g. the flagship card once cards stack. */
 
 const nav = document.querySelector(".nav");
 const darkSections = document.querySelectorAll("[data-dark]");
@@ -246,7 +247,7 @@ function updateNav() {
   const y = nav.offsetHeight / 2;
   const onDark = [...darkSections].some((el) => {
     const r = el.getBoundingClientRect();
-    return r.top <= y && r.bottom >= y;
+    return r.top <= y && r.bottom >= y && r.width >= window.innerWidth * 0.9;
   });
   nav.classList.toggle("is-on-dark", onDark);
 }

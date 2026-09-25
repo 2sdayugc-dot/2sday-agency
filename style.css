@@ -395,14 +395,18 @@ em {
 
 .offer { background: var(--white); }
 
+/* Cards share row tracks via subgrid (head, 9 list rows, foot) so the same
+   line sits at the same height in every card, even when text wraps. */
 .menu {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   border-top: 1.5px solid var(--line);
 }
 .dish {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-row: span 11;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   padding: clamp(28px, 3vw, 44px) clamp(20px, 2.4vw, 36px);
   border-bottom: 1.5px solid var(--line);
 }
@@ -423,6 +427,16 @@ em {
   letter-spacing: -0.055em;
   line-height: .95;
 }
+.dish__nowrap { white-space: nowrap; }
+.dish__chili {
+  display: inline-block;
+  width: .7em;
+  height: .7em;
+  margin-left: -.05em;
+  vertical-align: -.02em;
+  color: var(--pink);
+  transform: rotate(-8deg);
+}
 .dish__tag {
   margin: 0;
   font-family: var(--serif);
@@ -431,26 +445,40 @@ em {
   color: var(--mute);
 }
 .dish__list {
+  display: grid;
+  grid-row: span 9;
+  grid-template-rows: subgrid;
+  row-gap: 0;
   list-style: none;
-  counter-reset: item;
   margin: 0 0 40px;
   padding: 0;
-  flex: 1;
 }
 .dish__list li {
-  counter-increment: item;
   display: flex;
-  gap: 16px;
-  padding: 14px 0;
+  gap: 14px;
+  padding: 13px 0;
   border-top: 1px solid rgba(11,11,11,.15);
   font-size: 15px;
 }
+/* ✓ / ✗ markers, drawn as masked SVG so they share one stroke style */
 .dish__list li::before {
-  content: counter(item, decimal-leading-zero);
-  font-family: var(--mono);
-  font-size: 11px;
-  padding-top: 4px;
-  color: var(--mute);
+  content: "";
+  content: "" / "Included: ";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 4px;
+  background: var(--pink);
+  -webkit-mask: var(--mark) center / contain no-repeat;
+  mask: var(--mark) center / contain no-repeat;
+  --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2.5 8.5l3.5 3.5 7.5-8' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='square'/%3E%3C/svg%3E");
+}
+.dish__list li.is-out { color: rgba(11,11,11,.38); }
+.dish__list li.is-out::before {
+  content: "";
+  content: "" / "Not included: ";
+  background: rgba(11,11,11,.3);
+  --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 3.5l9 9M12.5 3.5l-9 9' fill='none' stroke='black' stroke-width='2' stroke-linecap='square'/%3E%3C/svg%3E");
 }
 .dish__foot {
   display: flex;
@@ -469,7 +497,6 @@ em {
 
 .dish--feature { background: var(--ink); color: var(--white); }
 .dish--feature .dish__tag,
-.dish--feature .dish__list li::before,
 .dish--feature .dish__price .label { color: rgba(255,255,255,.55); }
 .dish--feature .dish__list li { border-top-color: rgba(255,255,255,.18); }
 .dish--feature .dish__name { color: var(--pink); }
