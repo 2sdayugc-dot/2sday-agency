@@ -21,7 +21,7 @@ const CATEGORIES = [
   { id: "street",    name: "street interviews", sub: "Authentic, Staged" },
 ];
 
-// PLACEHOLDERS: tech, wellness and street entries are invented for layout only
+// PLACEHOLDERS: wellness and street entries are invented for layout only
 const PLACEHOLDER_VIDEO = "https://vimeo.com/76979871";
 
 const VIDEOS = [
@@ -32,12 +32,12 @@ const VIDEOS = [
   { category: "lifestyle", brand: "Liftaya",    details: "Self-Adhesive Push-up Bra · PL",   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531373/liftaya2.mov" },
   { category: "lifestyle", brand: "Prada ss27", details: "Personal Styling Content · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/prada2.mov" },
 
-  { category: "tech",      brand: "Stackwise",      details: "SaaS dashboard · EN",      video: PLACEHOLDER_VIDEO },
-  { category: "tech",      brand: "Pulsar",         details: "Wireless earbuds · EN",    video: PLACEHOLDER_VIDEO },
-  { category: "tech",      brand: "Notely",         details: "Note-taking app · PL",     video: PLACEHOLDER_VIDEO },
-  { category: "tech",      brand: "Brightloop",     details: "Smart lamp · EN",          video: PLACEHOLDER_VIDEO },
-  { category: "tech",      brand: "Ledgerly",       details: "Finance app · DE",         video: PLACEHOLDER_VIDEO },
-  { category: "tech",      brand: "Kinetic One",    details: "Phone gimbal · EN",        video: PLACEHOLDER_VIDEO },
+  { category: "tech",      brand: "Evelize",                details: "Teleprompter App · EN",         video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531535/evelize.mov" },
+  { category: "tech",      brand: "GENIQO",                 details: "AI Smart Pen · EN",             video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530801/GENIQO.mov" },
+  { category: "tech",      brand: "Leatyon Ltd.",           details: "Private Cloud Storage · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531198/leatyon_rev.mov" },
+  { category: "tech",      brand: "Beauty Editor",          details: "Editing App · EN",              video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531341/be3.mov" },
+  { category: "tech",      brand: "Wondershare PDFelement", details: "PDF Editing App · EN",          video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531556/0208_2pdfel1.mov" },
+  { category: "tech",      brand: "iFLYTEK",                details: "AI Translation Earbuds EN+RU",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533559/translation_1.mov" },
 
   { category: "wellness",  brand: "Glow Theory",    details: "Skincare device · EN",     video: PLACEHOLDER_VIDEO },
   { category: "wellness",  brand: "Rootwell",       details: "Supplements · PL",         video: PLACEHOLDER_VIDEO },
