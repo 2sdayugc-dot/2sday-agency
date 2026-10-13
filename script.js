@@ -3,43 +3,76 @@
    ========================================================================== */
 
 /* ---------- Portfolio data ----------
-   Add a video by pushing an object into the right category:
-     { title: "Client — Spot name", vimeo: "123456789", thumb: "assets/thumbs/x.jpg" }
-   `vimeo` is the numeric ID from the Vimeo URL. `thumb` is optional;
-   without it the tile shows a numbered placeholder. */
-const PLACEHOLDER_VIMEO = "76979871";
+   CATEGORIES sets the tabs, their order and the line under each name.
+   VIDEOS is one flat list; each entry says which category it belongs to:
 
-const PORTFOLIO = {
-  tech: [
-    { title: "Tech spot one", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Tech spot two", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Tech spot three", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Tech spot four", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Tech spot five", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Tech spot six", vimeo: PLACEHOLDER_VIMEO },
-  ],
-  lifestyle: [
-    { title: "Lifestyle spot one", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Lifestyle spot two", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Lifestyle spot three", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Lifestyle spot four", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Lifestyle spot five", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Lifestyle spot six", vimeo: PLACEHOLDER_VIMEO },
-  ],
-  street: [
-    { title: "Street interview one", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Street interview two", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Street interview three", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Street interview four", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Street interview five", vimeo: PLACEHOLDER_VIMEO },
-    { title: "Street interview six", vimeo: PLACEHOLDER_VIMEO },
-  ],
-};
+     { category: "wellness", brand: "Brand X", details: "Skincare device · EN",
+       video: "https://vimeo.com/123456789" }
 
-const CATEGORY_LABEL = { tech: "tech", lifestyle: "lifestyle", street: "street" };
+   `video` can be a Vimeo link (vimeo.com/ID, or vimeo.com/ID/HASH if unlisted),
+   a YouTube link, or a direct video file (.mp4/.mov/.webm, e.g. Cloudinary).
+   `thumb` (optional) sets the cover image. Cloudinary videos get one
+   automatically; anything else without a thumb shows a numbered placeholder.
+   Order within a category follows the order in this list. */
+const CATEGORIES = [
+  { id: "lifestyle", name: "lifestyle",         sub: "Travel, Fashion, Home & more" },
+  { id: "tech",      name: "tech",              sub: "SaaS, Gadgets, Apps" },
+  { id: "wellness",  name: "wellness",          sub: "Fitness, Supplements, Beauty" },
+  { id: "street",    name: "street interviews", sub: "Authentic, Staged" },
+];
 
-const vimeoUrl = (id) =>
-  `https://player.vimeo.com/video/${id}?autoplay=1&title=0&byline=0&portrait=0`;
+// PLACEHOLDERS: brand names and details below are invented for layout only
+const PLACEHOLDER_VIDEO = "https://vimeo.com/76979871";
+
+const VIDEOS = [
+  { category: "lifestyle", brand: "Northbound",     details: "Travel app · PL",          video: PLACEHOLDER_VIDEO },
+  { category: "lifestyle", brand: "Mira Studio",    details: "Fashion label · EN",       video: PLACEHOLDER_VIDEO },
+  { category: "lifestyle", brand: "Casa Lumen",     details: "Home decor · EN",          video: PLACEHOLDER_VIDEO },
+  { category: "lifestyle", brand: "Wayfare",        details: "Luggage · DE",             video: PLACEHOLDER_VIDEO },
+  { category: "lifestyle", brand: "Oro & Linen",    details: "Bedding · EN",             video: PLACEHOLDER_VIDEO },
+  { category: "lifestyle", brand: "Tidepool",       details: "Swimwear · PL",            video: PLACEHOLDER_VIDEO },
+
+  { category: "tech",      brand: "Stackwise",      details: "SaaS dashboard · EN",      video: PLACEHOLDER_VIDEO },
+  { category: "tech",      brand: "Pulsar",         details: "Wireless earbuds · EN",    video: PLACEHOLDER_VIDEO },
+  { category: "tech",      brand: "Notely",         details: "Note-taking app · PL",     video: PLACEHOLDER_VIDEO },
+  { category: "tech",      brand: "Brightloop",     details: "Smart lamp · EN",          video: PLACEHOLDER_VIDEO },
+  { category: "tech",      brand: "Ledgerly",       details: "Finance app · DE",         video: PLACEHOLDER_VIDEO },
+  { category: "tech",      brand: "Kinetic One",    details: "Phone gimbal · EN",        video: PLACEHOLDER_VIDEO },
+
+  { category: "wellness",  brand: "Glow Theory",    details: "Skincare device · EN",     video: PLACEHOLDER_VIDEO },
+  { category: "wellness",  brand: "Rootwell",       details: "Supplements · PL",         video: PLACEHOLDER_VIDEO },
+  { category: "wellness",  brand: "Formline",       details: "Fitness app · EN",         video: PLACEHOLDER_VIDEO },
+  { category: "wellness",  brand: "Saltmoon",       details: "Bath & body · EN",         video: PLACEHOLDER_VIDEO },
+  { category: "wellness",  brand: "Strata Labs",    details: "Protein powder · DE",      video: PLACEHOLDER_VIDEO },
+  { category: "wellness",  brand: "Velvet Hour",    details: "Sleep mask · EN",          video: PLACEHOLDER_VIDEO },
+
+  { category: "street",    brand: "Corner Coffee",  details: "Authentic · Warsaw · PL",  video: PLACEHOLDER_VIDEO },
+  { category: "street",    brand: "Freshcut",       details: "Staged · Kraków · PL",     video: PLACEHOLDER_VIDEO },
+  { category: "street",    brand: "Loop Transit",   details: "Authentic · Berlin · DE",  video: PLACEHOLDER_VIDEO },
+  { category: "street",    brand: "Hey Juice",      details: "Staged · London · EN",     video: PLACEHOLDER_VIDEO },
+  { category: "street",    brand: "Paperplane",     details: "Authentic · London · EN",  video: PLACEHOLDER_VIDEO },
+  { category: "street",    brand: "Nightowl Pizza", details: "Staged · Warsaw · PL",     video: PLACEHOLDER_VIDEO },
+];
+
+// Turn whatever link was pasted into something the lightbox can play
+function toPlayableUrl(link) {
+  const vimeo = link.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([0-9a-f]+))?/i);
+  if (vimeo) {
+    const hash = vimeo[2] ? `&h=${vimeo[2]}` : "";
+    return `https://player.vimeo.com/video/${vimeo[1]}?autoplay=1&title=0&byline=0&portrait=0${hash}`;
+  }
+  const yt = link.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
+  if (yt) return `https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0`;
+  return link; // direct file (.mp4/.mov/.webm) plays in the native player
+}
+
+// Cloudinary renders a still from a video when the URL ends in .jpg
+function autoThumb(link) {
+  if (!/res\.cloudinary\.com\/.+\/video\/upload\//.test(link)) return null;
+  return link
+    .replace("/video/upload/", "/video/upload/q_auto,w_480,c_limit/")
+    .replace(/\.(mp4|mov|webm)(\?.*)?$/i, ".jpg");
+}
 
 /* ---------- Lightbox ---------- */
 
@@ -206,52 +239,91 @@ card.addEventListener("click", () => {
 
 /* ---------- Portfolio tabs + grid ---------- */
 
+const tabsEl = document.getElementById("tabs");
 const grid = document.getElementById("grid");
-const tabs = document.querySelectorAll(".tab");
 
-function renderGrid(category) {
-  const items = PORTFOLIO[category] || [];
+function renderGrid(categoryId) {
+  const items = VIDEOS.filter((v) => v.category === categoryId);
   grid.replaceChildren(
     ...items.map((item, i) => {
       const tile = document.createElement("button");
       tile.type = "button";
       tile.className = "tile";
       tile.style.animationDelay = `${i * 60}ms`;
-      tile.setAttribute("aria-label", `Play ${item.title}`);
+      tile.setAttribute("aria-label", `Play ${item.brand} — ${item.details}`);
 
-      const num = String(i + 1).padStart(2, "0");
-      const media = item.thumb
-        ? `<img src="${item.thumb}" alt="" loading="lazy">`
-        : `<span class="tile__placeholder">${num}</span>`;
+      const thumb = document.createElement("div");
+      thumb.className = "tile__thumb";
+      const cover = item.thumb || autoThumb(item.video);
+      if (cover) {
+        const img = document.createElement("img");
+        img.src = cover;
+        img.alt = "";
+        img.loading = "lazy";
+        thumb.append(img);
+      } else {
+        const ph = document.createElement("span");
+        ph.className = "tile__placeholder";
+        ph.textContent = String(i + 1).padStart(2, "0");
+        thumb.append(ph);
+      }
+      const play = document.createElement("span");
+      play.className = "tile__play label";
+      play.textContent = "▶ play";
+      thumb.append(play);
 
-      tile.innerHTML = `
-        <div class="tile__thumb">
-          ${media}
-          <span class="tile__play label">▶ play</span>
-        </div>
-        <div class="tile__meta">
-          <span class="tile__title">${item.title}</span>
-          <span class="label">${CATEGORY_LABEL[category]} / ${num}</span>
-        </div>`;
+      const meta = document.createElement("div");
+      meta.className = "tile__meta";
+      const brand = document.createElement("span");
+      brand.className = "tile__brand";
+      brand.textContent = item.brand;
+      const details = document.createElement("span");
+      details.className = "tile__details";
+      details.textContent = item.details;
+      meta.append(brand, details);
 
-      tile.addEventListener("click", () => openVideo(vimeoUrl(item.vimeo)));
+      tile.append(thumb, meta);
+      tile.addEventListener("click", () => openVideo(toPlayableUrl(item.video)));
       return tile;
     })
   );
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    tabs.forEach((t) => {
-      const active = t === tab;
-      t.classList.toggle("is-active", active);
-      t.setAttribute("aria-selected", String(active));
-    });
-    renderGrid(tab.dataset.filter);
+function selectCategory(categoryId) {
+  tabsEl.querySelectorAll(".tab").forEach((t) => {
+    const active = t.dataset.category === categoryId;
+    t.classList.toggle("is-active", active);
+    t.setAttribute("aria-selected", String(active));
   });
-});
+  renderGrid(categoryId);
+}
 
-renderGrid("tech");
+tabsEl.replaceChildren(
+  ...CATEGORIES.map((cat) => {
+    const item = document.createElement("div");
+    item.className = "tabs__item";
+
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "tab";
+    tab.setAttribute("role", "tab");
+    tab.setAttribute("aria-controls", "grid");
+    tab.setAttribute("aria-describedby", `tab-sub-${cat.id}`);
+    tab.dataset.category = cat.id;
+    tab.textContent = cat.name;
+    tab.addEventListener("click", () => selectCategory(cat.id));
+
+    const sub = document.createElement("p");
+    sub.className = "tab__sub";
+    sub.id = `tab-sub-${cat.id}`;
+    sub.textContent = cat.sub;
+
+    item.append(tab, sub);
+    return item;
+  })
+);
+
+selectCategory(CATEGORIES[0].id);
 
 /* ---------- Review carousel ---------- */
 
