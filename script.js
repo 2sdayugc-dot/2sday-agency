@@ -330,15 +330,21 @@ tabsEl.replaceChildren(
 
 selectCategory(CATEGORIES[0].id);
 
-/* ---------- Review carousel ---------- */
+/* ---------- Review carousel ----------
+   Slow auto-rotate with a fade; pauses while the pointer is over the section.
+   Dots to jump, horizontal swipe on touch screens. No auto-rotate for
+   reduced-motion users (dots and swipe still work). */
 
 (function carousel() {
+  const section = document.getElementById("proof");
   const root = document.getElementById("quotes");
   const slides = [...root.querySelectorAll(".quote")];
   const dotsWrap = root.querySelector(".quotes__dots");
-  const INTERVAL = 5500;
+  const INTERVAL = 6500;
+  const autoRotate = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let index = 0;
   let timer = null;
+  let hovering = false;
 
   const dots = slides.map((_, i) => {
     const dot = document.createElement("button");
@@ -347,7 +353,7 @@ selectCategory(CATEGORIES[0].id);
     dot.setAttribute("aria-label", `Review ${i + 1}`);
     dot.addEventListener("click", () => {
       go(i);
-      restart();
+      schedule();
     });
     dotsWrap.appendChild(dot);
     return dot;
@@ -355,19 +361,46 @@ selectCategory(CATEGORIES[0].id);
 
   function go(i) {
     index = (i + slides.length) % slides.length;
-    slides.forEach((s, n) => s.classList.toggle("is-active", n === index));
+    slides.forEach((s, n) => {
+      s.classList.toggle("is-active", n === index);
+      s.setAttribute("aria-hidden", String(n !== index));
+    });
     dots.forEach((d, n) => d.setAttribute("aria-selected", String(n === index)));
   }
 
-  function start() { timer = setInterval(() => go(index + 1), INTERVAL); }
-  function stop() { clearInterval(timer); }
-  function restart() { stop(); start(); }
+  // One timer at most; restarts the full interval after any manual change
+  function schedule() {
+    clearTimeout(timer);
+    timer = null;
+    if (!autoRotate || hovering) return;
+    timer = setTimeout(() => {
+      go(index + 1);
+      schedule();
+    }, INTERVAL);
+  }
 
-  root.addEventListener("mouseenter", stop);
-  root.addEventListener("mouseleave", start);
+  section.addEventListener("mouseenter", () => { hovering = true; schedule(); });
+  section.addEventListener("mouseleave", () => { hovering = false; schedule(); });
+
+  // Swipe: a mostly-horizontal drag of 40px+ moves one review
+  let startX = null;
+  let startY = null;
+  root.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  root.addEventListener("touchend", (e) => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    startX = null;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    go(index + (dx < 0 ? 1 : -1));
+    schedule();
+  }, { passive: true });
 
   go(0);
-  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) start();
+  schedule();
 })();
 
 /* ---------- Contact form ----------
