@@ -182,14 +182,24 @@
         <p class="label"><span class="accent">03</span> — who's eating</p>
       </div>
 
+      <!-- Logos: trimmed copies in assets/logos (originals kept in assets/).
+           --h is each logo's height, tuned by eye so the row reads evenly:
+           wide wordmarks get less height than square or tall marks. -->
       <ul class="logos" aria-label="Brands we've worked with">
-        <li>BRAND/01</li>
-        <li>BRAND/02</li>
-        <li>BRAND/03</li>
-        <li>BRAND/04</li>
-        <li>BRAND/05</li>
-        <li>BRAND/06</li>
+        <li><img src="assets/logos/tabasco.png" alt="Tabasco" class="logo logo--knockout" style="--h: 68px"></li>
+        <li><img src="assets/logos/holafly.png" alt="Holafly" class="logo" style="--h: 25px"></li>
+        <li><img src="assets/logos/wondershare.png" alt="Wondershare" class="logo" style="--h: 40px"></li>
+        <li><img src="assets/logos/iflytek.png" alt="iFLYTEK" class="logo" style="--h: 23px"></li>
+        <li><img src="assets/logos/ballem.png" alt="Ballem" class="logo" style="--h: 46px"></li>
+        <li><img src="assets/logos/m17.png" alt="M17 Balance" class="logo" style="--h: 52px"></li>
       </ul>
+      <!-- Mono filter for logos whose white areas are part of the artwork (Tabasco's diamond):
+           white -> transparent, everything else -> black. Others just use brightness(0). -->
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style="position: absolute">
+        <filter id="logo-knockout" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.383 -1.287 -0.130 1.8 0"/>
+        </filter>
+      </svg>
 
       <div class="quotes" id="quotes" aria-roledescription="carousel" aria-label="Client reviews">
         <figure class="quote is-active" role="group" aria-roledescription="slide" aria-label="Review 1 of 4">
