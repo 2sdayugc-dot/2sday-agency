@@ -275,8 +275,9 @@ function renderGrid(categoryId) {
         thumb.append(ph);
       }
       const play = document.createElement("span");
-      play.className = "tile__play label";
-      play.textContent = "▶ play";
+      play.className = "tile__play";
+      play.setAttribute("aria-hidden", "true");
+      play.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>';
       thumb.append(play);
 
       const meta = document.createElement("div");
