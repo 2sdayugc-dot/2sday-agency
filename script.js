@@ -21,9 +21,6 @@ const CATEGORIES = [
   { id: "street",    name: "street interviews", sub: "Authentic, Staged" },
 ];
 
-// PLACEHOLDERS: street entries are invented for layout only
-const PLACEHOLDER_VIDEO = "https://vimeo.com/76979871";
-
 const VIDEOS = [
   { category: "lifestyle", brand: "Holafly",    details: "eSim · EN",                        video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530734/hflver1.mov" },
   { category: "lifestyle", brand: "Tabasco",    details: "Hot sauce · EN",                   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533317/0322_1.mov" },
@@ -46,12 +43,12 @@ const VIDEOS = [
   { category: "wellness",  brand: "GLEAMO",              details: "Fitness App · EN",                    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910324/glm3.mov" },
   { category: "wellness",  brand: "ELYON Dubai",         details: "Niche Luxury Perfume · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532106/elyon_ugc_1capt.mov" },
 
-  { category: "street",    brand: "Corner Coffee",  details: "Authentic · Warsaw · PL",  video: PLACEHOLDER_VIDEO },
-  { category: "street",    brand: "Freshcut",       details: "Staged · Kraków · PL",     video: PLACEHOLDER_VIDEO },
-  { category: "street",    brand: "Loop Transit",   details: "Authentic · Berlin · DE",  video: PLACEHOLDER_VIDEO },
-  { category: "street",    brand: "Hey Juice",      details: "Staged · London · EN",     video: PLACEHOLDER_VIDEO },
-  { category: "street",    brand: "Paperplane",     details: "Authentic · London · EN",  video: PLACEHOLDER_VIDEO },
-  { category: "street",    brand: "Nightowl Pizza", details: "Staged · Warsaw · PL",     video: PLACEHOLDER_VIDEO },
+  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911283/SnapInsta.to_AQMqX0HjNzfuLrgbo6f6Y0hYYnclPO9sYnqLOIdCwsiVHY51x_ORQ-bg-y_6IHGnosFLPOWxqdTFGDjWsT0nU-ub3eVClawQ7cL8bto.mp4" },
+  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911281/SnapInsta.to_AQMC8oCm3cxdfnrU0V5QVzHS978kGltNm7ZRKAFwO_UXR6yP-BLLZHgWMcCJkCXa-jduc-qFx16Uj-gHC0-daUNTzIblR10JKREbl2Q.mp4" },
+  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911289/SnapInsta.to_AQOMP9Wb1HaiaOe2_oiqU5IqozRMwc0QM5_q67bwBX3XRNu1urWl3MTjZBazgKCzLHAZ2ZVdfGJgVB-zuswrOT5pwUAbfHRi_fJwen0.mp4" },
+  { category: "street",    brand: "Mukiz",        details: "Music Quiz Game · EN",       video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531015/mukiznew2.mov" },
+  { category: "street",    brand: "Mukiz",        details: "Music Quiz Game · EN",       video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531013/mukiznew1.mov" },
+  { category: "street",    brand: "Calorii",      details: "Fitness App · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911513/cal1.mov" },
 ];
 
 // Turn whatever link was pasted into something the lightbox can play
