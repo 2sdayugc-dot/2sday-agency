@@ -21,7 +21,7 @@ const CATEGORIES = [
   { id: "street",    name: "street interviews", sub: "Authentic, Staged" },
 ];
 
-// PLACEHOLDERS: wellness and street entries are invented for layout only
+// PLACEHOLDERS: street entries are invented for layout only
 const PLACEHOLDER_VIDEO = "https://vimeo.com/76979871";
 
 const VIDEOS = [
@@ -39,12 +39,12 @@ const VIDEOS = [
   { category: "tech",      brand: "Wondershare PDFelement", details: "PDF Editing App · EN",          video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531556/0208_2pdfel1.mov" },
   { category: "tech",      brand: "iFLYTEK",                details: "AI Translation Earbuds EN+RU",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533559/translation_1.mov" },
 
-  { category: "wellness",  brand: "Glow Theory",    details: "Skincare device · EN",     video: PLACEHOLDER_VIDEO },
-  { category: "wellness",  brand: "Rootwell",       details: "Supplements · PL",         video: PLACEHOLDER_VIDEO },
-  { category: "wellness",  brand: "Formline",       details: "Fitness app · EN",         video: PLACEHOLDER_VIDEO },
-  { category: "wellness",  brand: "Saltmoon",       details: "Bath & body · EN",         video: PLACEHOLDER_VIDEO },
-  { category: "wellness",  brand: "Strata Labs",    details: "Protein powder · DE",      video: PLACEHOLDER_VIDEO },
-  { category: "wellness",  brand: "Velvet Hour",    details: "Sleep mask · EN",          video: PLACEHOLDER_VIDEO },
+  { category: "wellness",  brand: "M17 Balance",         details: "Premium Fitness Supplements · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/m17_pl1.mov" },
+  { category: "wellness",  brand: "Drexton",             details: "Oral Care · EN",                      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533045/dge.mov" },
+  { category: "wellness",  brand: "The Pilates Academy", details: "Fitness Certification Platform · EN", video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532543/pilates_academy1.mov" },
+  { category: "wellness",  brand: "AllDayPretty",        details: "Online Drugstore · EN",               video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531859/adp_capt.mov" },
+  { category: "wellness",  brand: "GLEAMO",              details: "Fitness App · EN",                    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910324/glm3.mov" },
+  { category: "wellness",  brand: "ELYON Dubai",         details: "Niche Luxury Perfume · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532106/elyon_ugc_1capt.mov" },
 
   { category: "street",    brand: "Corner Coffee",  details: "Authentic · Warsaw · PL",  video: PLACEHOLDER_VIDEO },
   { category: "street",    brand: "Freshcut",       details: "Staged · Kraków · PL",     video: PLACEHOLDER_VIDEO },
