@@ -39,7 +39,7 @@ const VIDEOS = [
   { category: "tech",      brand: "Wondershare PDFelement", details: "PDF Editing App · EN",          video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531556/0208_2pdfel1.mov" },
   { category: "tech",      brand: "iFLYTEK",                details: "AI Translation Earbuds EN+RU",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533559/translation_1.mov" },
 
-  { category: "wellness",  brand: "M17 Balance",         details: "Premium Fitness Supplements · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/m17_pl1.mov" },
+  { category: "wellness",  brand: "M17 Balance",         details: "Premium Fitness Supplements · PL",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/m17_pl1.mov" },
   { category: "wellness",  brand: "Drexton",             details: "Oral Care · EN",                      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533045/dge.mov" },
   { category: "wellness",  brand: "The Pilates Academy", details: "Fitness Certification Platform · EN", video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532543/pilates_academy1.mov" },
   { category: "wellness",  brand: "AllDayPretty",        details: "Online Drugstore · EN",               video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531859/adp_capt.mov" },
