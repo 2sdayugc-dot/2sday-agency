@@ -21,16 +21,16 @@ const CATEGORIES = [
   { id: "street",    name: "street interviews", sub: "Authentic, Staged" },
 ];
 
-// PLACEHOLDERS: brand names and details below are invented for layout only
+// PLACEHOLDERS: tech, wellness and street entries are invented for layout only
 const PLACEHOLDER_VIDEO = "https://vimeo.com/76979871";
 
 const VIDEOS = [
-  { category: "lifestyle", brand: "Northbound",     details: "Travel app · PL",          video: PLACEHOLDER_VIDEO },
-  { category: "lifestyle", brand: "Mira Studio",    details: "Fashion label · EN",       video: PLACEHOLDER_VIDEO },
-  { category: "lifestyle", brand: "Casa Lumen",     details: "Home decor · EN",          video: PLACEHOLDER_VIDEO },
-  { category: "lifestyle", brand: "Wayfare",        details: "Luggage · DE",             video: PLACEHOLDER_VIDEO },
-  { category: "lifestyle", brand: "Oro & Linen",    details: "Bedding · EN",             video: PLACEHOLDER_VIDEO },
-  { category: "lifestyle", brand: "Tidepool",       details: "Swimwear · PL",            video: PLACEHOLDER_VIDEO },
+  { category: "lifestyle", brand: "Holafly",    details: "eSim · EN",                        video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530734/hflver1.mov" },
+  { category: "lifestyle", brand: "Tabasco",    details: "Hot sauce · EN",                   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533317/0322_1.mov" },
+  { category: "lifestyle", brand: "AkiyaHub",   details: "Real Estate Consulting · EN",      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531090/akiyahub.mov" },
+  { category: "lifestyle", brand: "SinPlayPen", details: "Premium Adult Products · EN",      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530933/sinplaypen2.mov" },
+  { category: "lifestyle", brand: "Liftaya",    details: "Self-Adhesive Push-up Bra · PL",   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531373/liftaya2.mov" },
+  { category: "lifestyle", brand: "Prada ss27", details: "Personal Styling Content · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/prada2.mov" },
 
   { category: "tech",      brand: "Stackwise",      details: "SaaS dashboard · EN",      video: PLACEHOLDER_VIDEO },
   { category: "tech",      brand: "Pulsar",         details: "Wireless earbuds · EN",    video: PLACEHOLDER_VIDEO },
@@ -63,7 +63,14 @@ function toPlayableUrl(link) {
   }
   const yt = link.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{11})/);
   if (yt) return `https://www.youtube.com/embed/${yt[1]}?autoplay=1&rel=0`;
-  return link; // direct file (.mp4/.mov/.webm) plays in the native player
+  // Cloudinary: ask for an H.264 .mp4 (originals are often large .mov/HEVC that
+  // Chrome/Firefox can't play), capped at 1080px wide, unless already transformed
+  if (/res\.cloudinary\.com\/.+\/video\/upload\//.test(link)) {
+    return link
+      .replace(/\/video\/upload\/(v\d+\/)/, "/video/upload/q_auto,w_1080,c_limit/$1")
+      .replace(/\.(mov|webm|mp4)(\?.*)?$/i, ".mp4");
+  }
+  return link; // other direct files (.mp4/.webm) play in the native player
 }
 
 // Cloudinary renders a still from a video when the URL ends in .jpg
