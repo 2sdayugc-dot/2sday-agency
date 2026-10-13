@@ -731,7 +731,8 @@ em {
 .logos li {
   display: grid;
   place-items: center;
-  height: clamp(96px, 9vw, 124px);
+  --cell-h: clamp(96px, 9vw, 124px);
+  height: var(--cell-h);
   padding: 0 clamp(10px, 1.6vw, 22px);
   --logo-scale: 1;
 }
@@ -739,7 +740,8 @@ em {
 /* One soft-black treatment for the whole row; scaled by height (--h), never stretched */
 .logo {
   display: block;
-  height: calc(var(--h) * var(--logo-scale));
+  /* never closer than 12px to the cell's top/bottom edge */
+  height: min(calc(var(--h) * var(--logo-scale)), calc(var(--cell-h) - 24px));
   width: auto;
   max-width: 100%;
   object-fit: contain;
@@ -983,7 +985,7 @@ body.no-scroll { overflow: hidden; }
 @media (max-width: 560px) {
   .nav__links { gap: 14px; }
   .grid { grid-template-columns: repeat(2, 1fr); }
-  .logos li { --logo-scale: .66; height: 84px; } /* phones keep the 3x2 grid from above */
+  .logos li { --logo-scale: .66; --cell-h: 84px; } /* phones keep the 3x2 grid from above */
   .hero__scroll { display: none; }
   .hero__bg { background-position: 66% 30%; }
 }
