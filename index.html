@@ -229,8 +229,8 @@
         <h2 class="section__title">txt <em>us.</em></h2>
         <p class="contact__lede">Got a product, a brand, a half-baked idea? Tell us what you're cooking.</p>
         <ul class="contact__links">
-          <li><span class="label">email</span><a href="mailto:hello@example.com">hello@example.com</a></li>
-          <li><span class="label">instagram</span><a href="https://instagram.com/" target="_blank" rel="noopener">@yourhandle</a></li>
+          <li><span class="label">email</span><a href="mailto:2sday.ugc@gmail.com">2sday.ugc@gmail.com</a></li>
+          <li><span class="label">instagram</span><a href="https://instagram.com/2sday.ugc" target="_blank" rel="noopener">@2sday.ugc</a></li>
         </ul>
       </div>
 
@@ -247,6 +247,8 @@
           <span class="label">message</span>
           <textarea name="message" rows="5" required></textarea>
         </label>
+        <!-- Honeypot: hidden from people, bots tick it; Web3Forms also rejects it server-side -->
+        <input type="checkbox" name="botcheck" class="form__trap" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="form__foot">
           <button type="submit" class="btn btn--solid">send it</button>
           <p class="form__status" id="form-status" role="status"></p>
@@ -258,7 +260,7 @@
 
   <footer class="footer" data-dark>
     <span>© <span id="year"></span> 2sday</span>
-    <span class="footer__big">cool ads<span class="accent">.</span></span>
+    <span class="footer__big">stay saucy<span class="accent">.</span></span>
     <a href="#top">back to top ↑</a>
   </footer>
 

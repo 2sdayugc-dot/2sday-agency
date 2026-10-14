@@ -404,31 +404,97 @@ selectCategory(CATEGORIES[0].id);
 })();
 
 /* ---------- Contact form ----------
-   No backend yet. To go live, point this at a form service
-   (Formspree, Basin, Netlify Forms, etc.) inside the submit handler. */
+   Sends Name, Email and Message to Web3Forms (delivered to 2sday.ugc@gmail.com)
+   without a page reload. The access key is public by design: it can only
+   submit to this inbox. */
+
+const WEB3FORMS_KEY = "950f0c2a-2ec8-4d09-968b-311fee799580";
+const CONTACT_EMAIL = "2sday.ugc@gmail.com";
 
 const form = document.getElementById("contact-form");
 const statusEl = document.getElementById("form-status");
+const sendBtn = form.querySelector('button[type="submit"]');
+const fields = [...form.querySelectorAll(".field input, .field textarea")];
 
-form.addEventListener("submit", (e) => {
+function setStatus(message, { error = false, sentence = false } = {}) {
+  statusEl.textContent = message;
+  statusEl.classList.toggle("form__status--error", error);
+  statusEl.classList.toggle("form__status--sentence", sentence);
+}
+
+function showSent() {
+  const done = document.createElement("div");
+  done.className = "form-done";
+  done.setAttribute("role", "status");
+  done.tabIndex = -1;
+  done.innerHTML =
+    '<p class="form-done__title">got it<span class="accent">.</span></p>' +
+    '<p class="form-done__line">We\'ll get back to you soon.</p>';
+  form.replaceWith(done);
+  done.focus();
+}
+
+function showSendError() {
+  statusEl.innerHTML = "";
+  statusEl.append(
+    "Something went wrong, email us directly at ",
+    Object.assign(document.createElement("a"), { href: `mailto:${CONTACT_EMAIL}`, textContent: CONTACT_EMAIL })
+  );
+  statusEl.classList.add("form__status--error", "form__status--sentence");
+}
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  let valid = true;
+  if (sendBtn.disabled) return; // already sending
 
-  form.querySelectorAll("input, textarea").forEach((el) => {
-    const ok = el.checkValidity() && el.value.trim() !== "";
+  // Validate: all three filled, email well-formed
+  let firstBad = null;
+  fields.forEach((el) => {
+    const ok = el.value.trim() !== "" && el.checkValidity();
     el.closest(".field").classList.toggle("is-invalid", !ok);
-    if (!ok) valid = false;
+    if (!ok && !firstBad) firstBad = el;
   });
-
-  if (!valid) {
-    statusEl.textContent = "fill in all three, please.";
-    statusEl.style.color = "var(--pink)";
+  if (firstBad) {
+    const emptyField = fields.some((el) => el.value.trim() === "");
+    setStatus(emptyField ? "fill in all three, please." : "that email doesn't look right.", { error: true });
+    firstBad.focus();
     return;
   }
 
-  statusEl.textContent = "got it — we'll txt you back.";
-  statusEl.style.color = "";
-  form.reset();
+  const data = Object.fromEntries(new FormData(form));
+  // Honeypot ticked = bot. Pretend it worked so it learns nothing.
+  if (data.botcheck) {
+    showSent();
+    return;
+  }
+
+  sendBtn.disabled = true;
+  sendBtn.textContent = "sending...";
+  setStatus("");
+
+  try {
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
+        subject: "New message from the 2sday website",
+        from_name: "2sday website",
+        name: data.name.trim(),
+        email: data.email.trim(),
+        message: data.message.trim(),
+        botcheck: false,
+      }),
+      signal: AbortSignal.timeout(15000),
+    });
+    const result = await res.json().catch(() => ({}));
+    if (!res.ok || !result.success) throw new Error(result.message || `HTTP ${res.status}`);
+    showSent();
+  } catch (err) {
+    sendBtn.disabled = false;
+    sendBtn.textContent = "send it";
+    showSendError();
+  }
 });
 
 form.addEventListener("input", (e) => {
