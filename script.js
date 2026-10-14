@@ -12,7 +12,8 @@
    `video` can be a Vimeo link (vimeo.com/ID, or vimeo.com/ID/HASH if unlisted),
    a YouTube link, or a direct video file (.mp4/.mov/.webm, e.g. Cloudinary).
    `thumb` (optional) sets the cover image. Cloudinary videos get one
-   automatically; anything else without a thumb shows a numbered placeholder.
+   automatically: the first frame, or the frame at `cover` seconds if set
+   (e.g. cover: 3.5). Anything else without a thumb shows a numbered placeholder.
    Order within a category follows the order in this list. */
 const CATEGORIES = [
   { id: "lifestyle", name: "lifestyle",         sub: "Travel, Fashion, Home & more" },
@@ -22,33 +23,33 @@ const CATEGORIES = [
 ];
 
 const VIDEOS = [
-  { category: "lifestyle", brand: "Holafly",    details: "eSim · EN",                        video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530734/hflver1.mov" },
-  { category: "lifestyle", brand: "Tabasco",    details: "Hot sauce · EN",                   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533317/0322_1.mov" },
-  { category: "lifestyle", brand: "AkiyaHub",   details: "Real Estate Consulting · EN",      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531090/akiyahub.mov" },
-  { category: "lifestyle", brand: "SinPlayPen", details: "Premium Adult Products · EN",      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530933/sinplaypen2.mov" },
-  { category: "lifestyle", brand: "Liftaya",    details: "Self-Adhesive Push-up Bra · PL",   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531373/liftaya2.mov" },
-  { category: "lifestyle", brand: "Prada ss27", details: "Personal Styling Content · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/prada2.mov" },
+  { category: "lifestyle", brand: "Holafly",    details: "eSim · EN",                        video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530734/hflver1.mov", cover: 5 },
+  { category: "lifestyle", brand: "Tabasco",    details: "Hot sauce · EN",                   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533317/0322_1.mov", cover: 3 },
+  { category: "lifestyle", brand: "AkiyaHub",   details: "Real Estate Consulting · EN",      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531090/akiyahub.mov", cover: 24 },
+  { category: "lifestyle", brand: "SinPlayPen", details: "Premium Adult Products · EN",      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530933/sinplaypen2.mov", cover: 25 },
+  { category: "lifestyle", brand: "Liftaya",    details: "Self-Adhesive Push-up Bra · PL",   video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531373/liftaya2.mov", cover: 18 },
+  { category: "lifestyle", brand: "Prada ss27", details: "Personal Styling Content · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/prada2.mov", cover: 1 },
 
-  { category: "tech",      brand: "Evelize",                details: "Teleprompter App · EN",         video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531535/evelize.mov" },
-  { category: "tech",      brand: "GENIQO",                 details: "AI Smart Pen · EN",             video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530801/GENIQO.mov" },
-  { category: "tech",      brand: "Leatyon Ltd.",           details: "Private Cloud Storage · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531198/leatyon_rev.mov" },
-  { category: "tech",      brand: "Beauty Editor",          details: "Editing App · EN",              video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531341/be3.mov" },
-  { category: "tech",      brand: "Wondershare PDFelement", details: "PDF Editing App · EN",          video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531556/0208_2pdfel1.mov" },
-  { category: "tech",      brand: "iFLYTEK",                details: "AI Translation Earbuds EN+RU",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533559/translation_1.mov" },
+  { category: "tech",      brand: "Evelize",                details: "Teleprompter App · EN",         video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531535/evelize.mov", cover: 3 },
+  { category: "tech",      brand: "GENIQO",                 details: "AI Smart Pen · EN",             video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790530801/GENIQO.mov", cover: 1 },
+  { category: "tech",      brand: "Leatyon Ltd.",           details: "Private Cloud Storage · EN",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531198/leatyon_rev.mov", cover: 6 },
+  { category: "tech",      brand: "Beauty Editor",          details: "Editing App · EN",              video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531341/be3.mov", cover: 0 },
+  { category: "tech",      brand: "Wondershare PDFelement", details: "PDF Editing App · EN",          video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531556/0208_2pdfel1.mov", cover: 5 },
+  { category: "tech",      brand: "iFLYTEK",                details: "AI Translation Earbuds EN+RU",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533559/translation_1.mov", cover: 8 },
 
   { category: "wellness",  brand: "M17 Balance",         details: "Premium Fitness Supplements · PL",    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910297/m17_pl1.mov" },
-  { category: "wellness",  brand: "Drexton",             details: "Oral Care · EN",                      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533045/dge.mov" },
-  { category: "wellness",  brand: "The Pilates Academy", details: "Fitness Certification Platform · EN", video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532543/pilates_academy1.mov" },
+  { category: "wellness",  brand: "Drexton",             details: "Oral Care · EN",                      video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790533045/dge.mov", cover: 15 },
+  { category: "wellness",  brand: "The Pilates Academy", details: "Fitness Certification Platform · EN", video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532543/pilates_academy1.mov", cover: 12 },
   { category: "wellness",  brand: "AllDayPretty",        details: "Online Drugstore · EN",               video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531859/adp_capt.mov" },
-  { category: "wellness",  brand: "GLEAMO",              details: "Fitness App · EN",                    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910324/glm3.mov" },
-  { category: "wellness",  brand: "ELYON Dubai",         details: "Niche Luxury Perfume · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532106/elyon_ugc_1capt.mov" },
+  { category: "wellness",  brand: "GLEAMO",              details: "Fitness App · EN",                    video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791910324/glm3.mov", cover: 25 },
+  { category: "wellness",  brand: "ELYON Dubai",         details: "Niche Luxury Perfume · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790532106/elyon_ugc_1capt.mov", cover: 18 },
 
-  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911283/SnapInsta.to_AQMqX0HjNzfuLrgbo6f6Y0hYYnclPO9sYnqLOIdCwsiVHY51x_ORQ-bg-y_6IHGnosFLPOWxqdTFGDjWsT0nU-ub3eVClawQ7cL8bto.mp4" },
-  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911281/SnapInsta.to_AQMC8oCm3cxdfnrU0V5QVzHS978kGltNm7ZRKAFwO_UXR6yP-BLLZHgWMcCJkCXa-jduc-qFx16Uj-gHC0-daUNTzIblR10JKREbl2Q.mp4" },
-  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911289/SnapInsta.to_AQOMP9Wb1HaiaOe2_oiqU5IqozRMwc0QM5_q67bwBX3XRNu1urWl3MTjZBazgKCzLHAZ2ZVdfGJgVB-zuswrOT5pwUAbfHRi_fJwen0.mp4" },
-  { category: "street",    brand: "Mukiz",        details: "Music Quiz Game · EN",       video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531015/mukiznew2.mov" },
-  { category: "street",    brand: "Mukiz",        details: "Music Quiz Game · EN",       video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531013/mukiznew1.mov" },
-  { category: "street",    brand: "Calorii",      details: "Fitness App · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911513/cal1.mov" },
+  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911283/SnapInsta.to_AQMqX0HjNzfuLrgbo6f6Y0hYYnclPO9sYnqLOIdCwsiVHY51x_ORQ-bg-y_6IHGnosFLPOWxqdTFGDjWsT0nU-ub3eVClawQ7cL8bto.mp4", cover: 1 },
+  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911281/SnapInsta.to_AQMC8oCm3cxdfnrU0V5QVzHS978kGltNm7ZRKAFwO_UXR6yP-BLLZHgWMcCJkCXa-jduc-qFx16Uj-gHC0-daUNTzIblR10JKREbl2Q.mp4", cover: 46 },
+  { category: "street",    brand: "ELYON Dubai",  details: "Niche Luxury Perfume · EN",  video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911289/SnapInsta.to_AQOMP9Wb1HaiaOe2_oiqU5IqozRMwc0QM5_q67bwBX3XRNu1urWl3MTjZBazgKCzLHAZ2ZVdfGJgVB-zuswrOT5pwUAbfHRi_fJwen0.mp4", cover: 14 },
+  { category: "street",    brand: "Mukiz",        details: "Music Quiz Game · EN",       video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531015/mukiznew2.mov", cover: 10 },
+  { category: "street",    brand: "Mukiz",        details: "Music Quiz Game · EN",       video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1790531013/mukiznew1.mov", cover: 8 },
+  { category: "street",    brand: "Calorii",      details: "Fitness App · EN",           video: "https://res.cloudinary.com/fkq3p6m2/video/upload/v1791911513/cal1.mov", cover: 43 },
 ];
 
 // Turn whatever link was pasted into something the lightbox can play
@@ -70,11 +71,13 @@ function toPlayableUrl(link) {
   return link; // other direct files (.mp4/.webm) play in the native player
 }
 
-// Cloudinary renders a still from a video when the URL ends in .jpg
-function autoThumb(link) {
+// Cloudinary renders a still from a video when the URL ends in .jpg;
+// so_<seconds> picks the frame (default: first frame)
+function autoThumb(link, cover) {
   if (!/res\.cloudinary\.com\/.+\/video\/upload\//.test(link)) return null;
+  const offset = typeof cover === "number" ? `so_${cover},` : "";
   return link
-    .replace("/video/upload/", "/video/upload/q_auto,w_480,c_limit/")
+    .replace("/video/upload/", `/video/upload/${offset}q_auto,w_480,c_limit/`)
     .replace(/\.(mp4|mov|webm)(\?.*)?$/i, ".jpg");
 }
 
@@ -258,7 +261,7 @@ function renderGrid(categoryId) {
 
       const thumb = document.createElement("div");
       thumb.className = "tile__thumb";
-      const cover = item.thumb || autoThumb(item.video);
+      const cover = item.thumb || autoThumb(item.video, item.cover);
       if (cover) {
         const img = document.createElement("img");
         img.src = cover;
